@@ -1,0 +1,26 @@
+<%- include('./layout', { body: `
+    <div class="posts-container">
+      <h2>Latest Posts</h2>
+      
+      <% if (posts.length === 0) { %>
+        <p>No posts yet. <a href="/posts/new">Create the first post</a>!</p>
+      <% } else { %>
+        <div class="posts-grid">
+          <% posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(post => { %>
+            <div class="post-card">
+              <h3><a href="/posts/<%= post.id %>"><%= post.title %></a></h3>
+              <p class="post-meta">
+                By <%= post.author %> on <%= new Date(post.createdAt).toLocaleDateString() %>
+              </p>
+              <p class="post-excerpt">
+                <%= post.content.length > 150 ? post.content.substring(0, 150) + '...' : post.content %>
+              </p>
+              <div class="post-actions">
+                <a href="/posts/<%= post.id %>" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+    ` }) %>
